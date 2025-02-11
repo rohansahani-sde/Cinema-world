@@ -1,0 +1,55 @@
+import React, { useState } from 'react'
+import { IoIosMenu, IoMdClose } from "react-icons/io";
+
+
+const Navbar = () => {
+    const links = [
+        { name: "Home", link: "/" },
+        { name: "Movies", link: "/movies" },
+        { name: "Series", link: "/series" },
+        { name: "Tv Show", link: "/tvshow" },
+    ];
+
+    const [isOpen , setIsOpen] = useState(false)
+    
+  return (
+    <>
+    <div className={`flex flex-col bg-black text-white p-4  w-full top-0 left-0 z-50 shadow-md justify- fixed `}>
+        <div className=' container mx-auto flex justify-between px-4 animate-fadeInX'>
+            <h1 className='text-2xl font-bold hover:text-cyan-500 cursor-pointer'>Cinema World</h1>
+        <div className='hidden md:flex space-x-6 animate-fadeInY'>
+            <ul className='flex space-x-6 duration-700'>
+                {links.map(({name,link}) => (
+                    <li key={name} className='hover:text-cyan-600 active:text-cyan-700 hover:border-b px-2 hover:border-cyan-600 rounded-lg duration-200' >
+                        <a href={link}>{name}</a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+        {/* hidden for mobile */}
+        <div className='md:hidden text-3xl flex items-center justify-end cursor-pointer'>
+            <button 
+            onClick={()=>{setIsOpen(!isOpen)}}
+            >{isOpen ?  <IoMdClose/>: <IoIosMenu/>}</button>
+        </div>
+        </div>
+        <div className={ ` absolute xl:hidden top-11 left-0 
+            w-full flex flex-col items-center font-semibold text-lg
+            bg-black 
+            transform transition-transform 
+            ${isOpen ? 'opacity-100 animate-fadeInX' : 'opacity-0 '} `}>
+            <ul className='flex flex-col items-center space-y-2 py-6 '>
+                {links.map(({name,link}) => (
+                    <li key={name} className='text-center hover:text-cyan-600 hover:border-b px-2  hover:border-cyan-600 rounded-lg duration-200
+                     transition-all ease-in-out ' >
+                        <a href={link}>{name}</a>
+                    </li>
+                ))}
+            </ul>
+        </div>
+        </div>
+    </>
+  )
+}
+
+export default Navbar
