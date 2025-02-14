@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {API_KEY} from '../utils/constant'
+import Home from "./Home";
 
 const TrendingMovies = () => {
   const [movies, setMovies] = useState([]);
@@ -25,6 +26,7 @@ const TrendingMovies = () => {
     <div className="mt-16 pt-4 bg-black text-white">
       <h1 className="text-center text-2xl"><span className="text-red-700 animate-pulse">Trending </span> 
         Movies & Shows</h1>
+        {/* <Home/> */}
       <div className="grid grid-cols-5 gap-5 m-6">
         {movies.map((movie) => (
           <div key={movie.id} className="p-4 border-b border-t rounded-3xl">

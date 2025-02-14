@@ -6,7 +6,7 @@ import TvShow from './components/Tvshow.jsx'
 import Movie from './components/Movie'
 import Navbar from './components/Navbar'
 import Home from './components/Home.jsx'
-import TrendingMovies from './components/TrendingMovies.jsx'
+// import TrendingMovies from './components/TrendingMovies.jsx'
 // import React, { useEffect, useState } from 'react'
 
 
@@ -51,7 +51,7 @@ const App = () => {
     <Navbar />
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<TrendingMovies/>} />
+        <Route path="/" element={<Home />} />
         <Route path="/series" element={<Series />} />
         <Route path="/tvshow" element={<TvShow />} />
         <Route path="/movies" element={<Movie />} />

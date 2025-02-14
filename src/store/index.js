@@ -9,8 +9,8 @@ export async function getData(lang, pgno ) {
 }
 
 // home
-export async function getHomeData(lang, pgno) {
-   const data = await fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&page=${pageNum}`)
+export async function getHomeData(pgno) {
+   const data = await fetch(`https://api.themoviedb.org/3/trending/all/day?api_key=${API_KEY}&page=${pgno}`)
    const response = await data.json()
    return response
 }
