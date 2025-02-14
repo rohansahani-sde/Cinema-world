@@ -1,12 +1,28 @@
-<<<<<<< HEAD
 # Cinema-world
-=======
+
 # React + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# Technologies Used
+React.js ⚛️
+Tailwind CSS 🎨
+TMDB API 🎞️
 
-Currently, two official plugins are available:
+![image](https://github.com/user-attachments/assets/f5426df0-31c2-44a2-8636-caa3b0188fd9)
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
->>>>>>> bb0586d (Initial commit)
+# Series 
+![image](https://github.com/user-attachments/assets/0a6b1365-4265-4b2b-893b-a9e495196817)
+# Tv Shows
+![image](https://github.com/user-attachments/assets/97287b29-27c0-4e58-93d7-2249f270b8d9)
+
+
+# 📦 Installation & Setup 
+```bash
+git clone https://github.com/rohan-sahani/cinema-world.git
+cd cinema-world
+npm install
+npm run dev
+```
+
+
+# Developed by Rohan Sahani 🎉
+
