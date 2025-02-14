@@ -22,7 +22,13 @@ cd cinema-world
 npm install
 npm run dev
 ```
+## 🌟 Support the Project!  
+If you like this project, please **⭐ star the repository** on GitHub.  
+It helps and motivates me to keep improving! 🚀✨  
 
+## 👨‍💻 Developed by Rohan Sahani 🎉
+## 📲 Connect with Me  
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/rohan-sahani-09-/) 
+[![LeetCode](https://img.shields.io/badge/LeetCode-FFA116?style=for-the-badge&logo=leetcode&logoColor=black)](https://leetcode.com/sahanirohan313/)
 
-# Developed by Rohan Sahani 🎉
 
