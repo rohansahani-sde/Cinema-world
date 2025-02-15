@@ -9,7 +9,7 @@ const Home = () => {
   async function fetchData() {
     const data = await getHomeData(page)
     console.log(data.results)
-    setMovies(() => [,...data.results])
+    setMovies(data.results)
     
   }
     fetchData()
