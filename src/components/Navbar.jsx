@@ -33,11 +33,11 @@ const Navbar = () => {
             >{isOpen ?  <IoMdClose/>: <IoIosMenu/>}</button>
         </div>
         </div>
-        <div className={ ` absolute xl:hidden top-11 left-0 
+        <div className={ ` absolute md:opacity-0 top-11 left-0 
             w-full flex flex-col items-center font-semibold text-lg
             bg-black 
             transform transition-transform 
-            ${isOpen ? 'opacity-100 animate-fadeInX' : 'opacity-0 '} `}>
+            ${isOpen ? ' block animate-fadeInX' : 'hidden '} `}>
             <ul className='flex flex-col items-center space-y-2 py-6 '>
                 {links.map(({name,link}) => (
                     <li key={name} className='text-center hover:text-cyan-600 hover:border-b px-2  hover:border-cyan-600 rounded-lg duration-200
