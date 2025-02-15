@@ -69,7 +69,7 @@ const Tvshow = () => {
       <div className="flex flex-wrap sm:gap-5 gap-3 justify-center mt-5">
         {tvShow.length > 0 ? (
           tvShow.map((tvShow) => (
-            <div key={tvShow.id} className="sm:w-64 w-44 border rounded-xl text-center  bg-gray-800">
+            <div key={tvShow.id} className="sm:w-64 w-40 border rounded-xl text-center  bg-gray-800">
               <img
                 src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`}
                 className="w-full rounded-t-xl"
@@ -85,7 +85,7 @@ const Tvshow = () => {
             </div>
           ))
         ) : (
-          <p className="text-center text-lg "> sorry No Show found</p>
+          <p className="text-center text-lg ">Loading....</p>
         )}
       </div>
 

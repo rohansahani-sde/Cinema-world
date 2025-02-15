@@ -81,7 +81,7 @@ const Series = () => {
             </div>
           ))
         ) : (
-          <p className="text-center text-lg ">No series found</p>
+          <p className="text-center text-lg ">Loading....</p>
         )}
       </div>
       <div className='border-b rounded-3xl mt-8'>
