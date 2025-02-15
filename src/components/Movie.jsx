@@ -42,9 +42,9 @@ const Movie = () => {
 
     {/* movies lists */}
       {movie.length > 0 ? (<>
-      <div className=' flex flex-wrap gap-5 justify-center bg-black text-white '>
+      <div className='pt-4 flex flex-wrap md:gap-5 gap-3 justify-center bg-black text-white '>
       {movie.map((movie ) => (
-        <div className='flex-wrap text-center border rounded-xl w-64' key={movie.id}>
+        <div className='flex-wrap text-center border rounded-xl sm:w-64 w-40' key={movie.id}>
           {/* <div> */}
 
           <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
@@ -55,8 +55,14 @@ const Movie = () => {
         </div>
       ))}
       </div>
-      </>) :(<>
-      <h1>Movies not found</h1>
+      </>) :(<> 
+      {/* skeleton loader */}
+        <div className="flex-wrap text-center border rounded-xl sm:w-64 w-40 animate-pulse">
+          <div className="w-full h-60 bg-gray-300 rounded-t-xl"></div>
+          <h2 className="text-center text-xl font-extralight bg-gray-300 h-6 w-3/4 mx-auto mt-2 rounded"></h2>
+          <h2 className="bg-gray-300 h-4 w-1/2 mx-auto mt-1 rounded"></h2>
+          </div>
+
       </>)}
       <div className='flex justify-center items-baseline bg-red-600 pt-2'>
         <button 

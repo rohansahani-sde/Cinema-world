@@ -21,7 +21,10 @@ const Tvshow = () => {
         console.log(response.results)
     }
     useEffect(()=>{
+      const delay = setTimeout(() => {
         fetchTvShow()
+      }, 500);
+      return ()=> clearTimeout(delay)
     },[search,page])
 
     useEffect(() => {
@@ -51,21 +54,22 @@ const Tvshow = () => {
         📺<span className='animate-pulse'>Explore Tv Shows</span> 
      </h1>
     <div className="flex justify-center mb-6">
-        <div className='relative w-full max-w-md'>
+        <div className='relative sm:w-full max-w-md'>
         <input
           type="text"
           placeholder="Search Tv Shows..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="w-full p-3 pl-10 text-lg border border-gray-600 bg-gray-800 text-white rounded-full focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all duration-300 outline-none"
+          className="w-full sm:p-3 p-2 sm:pl-5 pl-5 text-lg border border-gray-600 bg-gray-800 text-white rounded-full focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all duration-300 outline-none"
         />
-        <BsSearch className='absolute left-3 top-1/2 transform -translate-y-1/2 text-xl text-gray-400' />
+        <BsSearch className='absolute right-4 top-1/2 transform -translate-y-1/2 text-xl text-gray-400' />
         </div>
       </div>
-      <div className="flex flex-wrap gap-5 justify-center mt-5">
+      {/* data & Tv Shows List */}
+      <div className="flex flex-wrap sm:gap-5 gap-3 justify-center mt-5">
         {tvShow.length > 0 ? (
           tvShow.map((tvShow) => (
-            <div key={tvShow.id} className="w-64 border rounded-xl text-center p-3 bg-gray-800">
+            <div key={tvShow.id} className="sm:w-64 w-44 border rounded-xl text-center  bg-gray-800">
               <img
                 src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`}
                 className="w-full rounded-t-xl"

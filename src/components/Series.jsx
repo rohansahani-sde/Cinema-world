@@ -6,7 +6,7 @@ const Series = () => {
   const [search, setSearch] = useState('Game');
   const [series, setSeries] = useState([]);
   const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState()
+  const [totalPage, setTotalPage] = useState(1)
 
   
 //   fetch serires & data
@@ -18,7 +18,10 @@ const Series = () => {
     }
 
     useEffect(() => {
+      const delay = setTimeout(() => {
         fetchSeries();
+      }, 500);
+      return () => clearTimeout(delay);
     },[page,search])
 
     useEffect(() => {
@@ -46,7 +49,7 @@ const Series = () => {
       {/* input */}
  
     <div className="flex justify-center">
-  <div className="relative w-full max-w-md">
+  <div className="relative sm:w-full max-w-md">
     <input
       type="text"
       placeholder="Search Series..."
@@ -54,15 +57,15 @@ const Series = () => {
       onChange={(e) => setSearch(e.target.value)}
       className="w-full p-3 pl-10 text-lg border border-gray-600 bg-gray-900 text-white rounded-full focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all duration-300 outline-none"
     />
-    <BsArrowRightShort className="absolute left-3 top-1/2 transform text-2xl  -translate-y-1/2 text-gray-400 animate-pulse " />
+    <BsArrowRightShort className="absolute right-4 top-1/2 transform text-2xl  -translate-y-1/2 text-gray-400 animate-pulse " />
     
   </div>
   </div>
 
-      <div className="flex flex-wrap gap-5 justify-center mt-5">
+      <div className="flex flex-wrap sm:gap-5 gap-3 justify-center mt-5">
         {series.length > 0 ? (
           series.map((item) => (
-            <div key={item.id} className="w-64 border rounded-xl text-center p-3 bg-gray-800">
+            <div key={item.id} className="sm:w-64 w-44 border rounded-xl text-center bg-gray-800">
               <img
                 src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
                 className="w-full rounded-t-xl"
