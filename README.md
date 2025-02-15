@@ -16,8 +16,13 @@ TMDB API 🎞️
 
 
 # 📦 Installation & Setup 
+## 🛠 Environment Variables  
+Create a `.env` file in the root directory and add:  
+```env
+VITE_TMDB_API_KEY=your_actual_api_key
+```
 ```bash
-git clone https://github.com/rohan-sahani/cinema-world.git
+git clone https://github.com/0001sahani/cinema-world.git
 cd cinema-world
 npm install
 npm run dev
