@@ -21,7 +21,7 @@ const Footer = () => {
             Rohan <span className='text-amber-500 animate-pulse group-hover:text-white transition-all duration-300'>Sahani</span>
         </h1>
     </div>
-    <div className='flex justify-center text-lg text-white md:justify-center gap-x-10 md:w-1/3'>
+    <div className='flex justify-center text-lg text-white md:justify-center gap-x-5 mg:gap-x-10 md:w-1/3'>
         {links.map((link) => (
             <a key={link.name} href={link.link} className='flex items-center hover:text-amber-500 hover:scale-125 transition-all duration-300 group' >
                {link.icon} {link.name}
