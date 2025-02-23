@@ -1,5 +1,6 @@
 import React, {  useEffect, useState } from 'react'
 import {getMovies} from '../store'
+import Skeleton from './Skeleton'
 
 const Movie = () => {
 
@@ -8,14 +9,17 @@ const Movie = () => {
   const [page , setPage] = useState(1)
   const [sort, setSort] = useState('trending')
 
-  useEffect(()=>{
-    async function fetchMovie() {
-      const data = await getMovies(lang, page,sort);
-      if(data && data.results){
-        setMovie(data.results)
-      }
+  async function fetchMovie() {
+    const data = await getMovies(lang, page,sort);
+    if(data && data.results){
+      setMovie(data.results)
     }
-    fetchMovie()
+  }
+  useEffect(()=>{
+    const delay = setTimeout(() => {
+      fetchMovie()
+    }, 500);
+    return ()=> clearInterval(delay)
   },[lang,page,sort])
 
 
@@ -25,7 +29,7 @@ const Movie = () => {
       <h1 className='bg-red-600 flex justify-center py-2 text-3xl font-light '>Netflix Movies</h1>
       <div className='flex justify-center bg-red-600  font-light'>
       {/* input section */}
-      <label for="lang">Choose Language :</label>
+      <label htmlFor="lang">Choose Language :</label>
     <select id="lang"
     onClick={(e)=> setLang(e.target.value)}
     >
@@ -57,11 +61,12 @@ const Movie = () => {
       </div>
       </>) :(<> 
       {/* skeleton loader */}
-        <div className="flex-wrap text-center border rounded-xl sm:w-64 w-40 animate-pulse">
+        {/* <div className="flex-wrap text-center border rounded-xl sm:w-64 w-40 animate-pulse">
           <div className="w-full h-60 bg-gray-300 rounded-t-xl"></div>
           <h2 className="text-center text-xl font-extralight bg-gray-300 h-6 w-3/4 mx-auto mt-2 rounded"></h2>
           <h2 className="bg-gray-300 h-4 w-1/2 mx-auto mt-1 rounded"></h2>
-          </div>
+          </div> */}
+          <Skeleton/>
 
       </>)}
       <div className='flex justify-center items-baseline bg-red-600 pt-2'>

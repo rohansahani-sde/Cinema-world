@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { getTvShows, getVideo } from '../store'
-import { BsArrowLeft, BsArrowRight, BsSearch } from 'react-icons/bs'
+import { BsSearch } from 'react-icons/bs'
+import Skeleton from './Skeleton'
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 
 
 
@@ -85,7 +87,7 @@ const Tvshow = () => {
             </div>
           ))
         ) : (
-          <p className="text-center text-lg ">Loading....</p>
+          <Skeleton />
         )}
       </div>
 
@@ -102,7 +104,7 @@ const Tvshow = () => {
                 onClick={() => setPage(Math.max(1, page - 1))}
                 className="flex items-center border-b-2 border-t-2 hover:bg-cyan-400 hover:text-black duration-300 hover:scale-105 rounded-xl px-3"
               >
-                  <BsArrowLeft className='text-2xl mr-2'/> Prev
+                  <FaArrowLeft className='text-2xl mr-2'/> Prev
               </button>
               <span> 📄 {page} </span>
               <button
@@ -114,7 +116,7 @@ const Tvshow = () => {
                 disabled={totalPage === page}
                 className="flex items-center border-b-2 border-t-2 hover:bg-cyan-400 hover:text-black duration-300 hover:scale-105 rounded-xl px-3"
               >
-                  Next <BsArrowRight className='text-2xl ml-2'/>
+                  Next <FaArrowRight className='text-2xl ml-2'/>
               </button>
             </div>
     </div>

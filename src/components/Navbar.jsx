@@ -1,13 +1,16 @@
 import React, { useState } from 'react'
+import { FaHome, FaPlayCircle } from 'react-icons/fa';
+import { FiTv } from 'react-icons/fi';
 import { IoIosMenu, IoMdClose } from "react-icons/io";
+import { MdMovie } from 'react-icons/md';
 
 
 const Navbar = () => {
     const links = [
-        { name: "Home", link: "/" },
-        { name: "Movies", link: "/movies" },
-        { name: "Series", link: "/series" },
-        { name: "Tv Show", link: "/tvshow" },
+        { name: "Home",icon: <FaHome/> , link: "/" },
+        { name: "Movies", icon: <MdMovie /> , link: "/movies" },
+        { name: "Series", icon: <FaPlayCircle />  , link: "/series" },
+        { name: "Tv Show", icon: <FiTv /> , link: "/tvshow" },
     ];
 
     const [isOpen , setIsOpen] = useState(false)
@@ -19,9 +22,9 @@ const Navbar = () => {
             <h1 className='text-2xl font-bold hover:text-cyan-500 cursor-pointer'>Cinema World</h1>
         <div className='hidden md:flex space-x-6 animate-fadeInY'>
             <ul className='flex space-x-6 duration-700'>
-                {links.map(({name,link}) => (
-                    <li key={name} className='hover:text-cyan-600 active:text-cyan-700 hover:border-b px-2 hover:border-cyan-600 rounded-lg duration-200' >
-                        <a href={link}>{name}</a>
+                {links.map(({name,link,icon}) => (
+                    <li key={name} className='hover:text-cyan-600 active:text-cyan-700 hover:border-b px-2 hover:border-cyan-600 rounded-lg transition-all duration-200 group hover:scale-110 ' >
+                        <a className='flex items-center' href={link}> {icon} {name}</a>
                     </li>
                 ))}
             </ul>

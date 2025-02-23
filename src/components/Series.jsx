@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { getSeries, getVideo } from '../store';
-import { BsArrowLeft, BsArrowRight, BsArrowRightShort  } from "react-icons/bs";
+import {  BsArrowRightShort  } from "react-icons/bs";
+import Skeleton from './Skeleton';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 
 const Series = () => {
   const [search, setSearch] = useState('Game');
@@ -81,7 +83,7 @@ const Series = () => {
             </div>
           ))
         ) : (
-          <p className="text-center text-lg ">Loading....</p>
+          <Skeleton />
         )}
       </div>
       <div className='border-b rounded-3xl mt-8'>
@@ -93,7 +95,7 @@ const Series = () => {
           onClick={() => setPage(Math.max(1, page - 1))}
           className="flex items-center border-b-2 border-t-2 hover:bg-cyan-400 hover:text-black duration-300 hover:scale-105 rounded-xl p-2"
         >
-            <BsArrowLeft className='text-2xl mr-2'/> Prev
+            <FaArrowLeft className='text-2xl mr-2'/> Prev
         </button>
         <span> 📄 {page} </span>
         <button
@@ -105,7 +107,7 @@ const Series = () => {
           disabled={totalPage === page}
           className="flex items-center border-b-2 border-t-2 hover:bg-cyan-400 hover:text-black duration-300 hover:scale-105 rounded-xl p-2"
         >
-            Next <BsArrowRight className='text-2xl ml-2'/>
+            Next <FaArrowRight className='text-2xl ml-2'/>
         </button>
       </div>
     </div>
