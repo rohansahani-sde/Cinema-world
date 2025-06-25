@@ -25,7 +25,7 @@ const Category = ( ) => {
             const data = res.data.results;
             // setMovies(prev => [...prev,...data]);
             setMovies(data);
-            console.log(data);
+            // console.log(data);
         }catch(err){
             console.log("Not fetch by category", err);
         }finally{

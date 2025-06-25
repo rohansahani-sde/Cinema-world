@@ -27,7 +27,7 @@ const Search = () => {
             })
             const data = response.data.results;
             setData(prev => [...prev, ...data || []]);
-            console.log(data);
+            
         }
         catch(err){
             console.log(err);

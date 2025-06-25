@@ -11,7 +11,7 @@ const Details = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const {data} = location.state || {};
-    console.log(data)
+    // console.log(data)
     const movieId = data?.id
 
     const [key, setKey] = useState("")
@@ -27,9 +27,8 @@ const Details = () => {
             setKey(response.data.results[0]?.key || response.data.results[1]?.key)
             const tmdb = await instance.get(`/movie/${movieId}/external_ids`);
             setExternal(tmdb.data)
-            console.log("Details :")
-            console.log(response.data);
-            console.log(tmdb.data);
+            
+            // console.log(tmdb.data);
         }
         catch(error){
             console.log(error);

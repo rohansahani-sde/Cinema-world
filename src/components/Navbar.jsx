@@ -18,7 +18,7 @@ const Navbar = () => {
         if(query.trim()){
             navigate(`/search?q=${encodeURIComponent(query.trim()) }`);
         }
-        console.log("Seach buittom");
+        
     }
     
     const links = [

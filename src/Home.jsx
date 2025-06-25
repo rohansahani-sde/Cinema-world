@@ -11,7 +11,7 @@ const Home = () => {
   const [page, setPage] = useState(1)
   async function fetchData() {
     const data = await getHomeData(page)
-    console.log(data.results)
+    // console.log(data.results)
     setMovies(data.results)
     
   }
