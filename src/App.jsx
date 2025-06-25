@@ -5,8 +5,12 @@ import Series from './components/Series.jsx'
 import TvShow from './components/Tvshow.jsx'
 import Movie from './components/Movie'
 import Navbar from './components/Navbar'
-import Home from './components/Home.jsx'
+// import Home from './components/Home.jsx'
+import Home from './Home.jsx'
 import Footer from './components/Footer.jsx'
+import Details from './pages/Details.jsx'
+import Search from './pages/Search.jsx'
+import Category from './components/Category.jsx'
 // import TrendingMovies from './components/TrendingMovies.jsx'
 // import React, { useEffect, useState } from 'react'
 
@@ -49,16 +53,27 @@ const App = () => {
 
   return (
     <>
-    <Navbar />
+    
     <BrowserRouter>
+    <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movie />} />
         <Route path="/series" element={<Series />} />
         <Route path="/tvshow" element={<TvShow />} />
+
+        {/* test */}
+        {/* <Route path='/' element={<Home />} */}
+         <Route path="/details/:id" element={<Details />} />
+         <Route path="/search" element={<Search />} />
+         <Route path="/movie/:category" element={<Category />} />
+         
+
       </Routes>
+    {/* <Category /> */}
+
     </BrowserRouter>
-    <Footer/>
+    {/* <Footer/> */}
     </>
     
   )
