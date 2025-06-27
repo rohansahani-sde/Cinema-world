@@ -2,6 +2,10 @@ import React, { useEffect, useState } from 'react'
 import instance from '../utils/axios';
 import { Link, useFetcher, useLocation } from 'react-router-dom';
 import Card from '../components/Card';
+import Footer from '../components/Footer';
+import Loading from '../components/Loading';
+
+
 
 const Search = () => {
 
@@ -54,29 +58,33 @@ const Search = () => {
 
   return (
     <>
-    <div className='text-white text-lg'>
-        Search for <span className='text-cyan-600'>{query} :</span>
-    </div>
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+    <div className='bg-black py-4'>
+
         {
-            loading ? <div>no....</div> : 
-            data.map( (data, idx) =>(
-                <Link to={`/details/${encodeURIComponent(data?.title)}`} 
-                key={idx}
-                state={{data}}
-                className='block' >
-                    <Card 
-                    key={idx}
-                    title={data?.title}
-                    description={data?.overview}
-                    urlToImage={`https://image.tmdb.org/t/p/w500${data?.poster_path || data?.backdrop_path}`}
-                    source={data?.vote_average}
-                    date={new Date(data?.release_date).toLocaleDateString()}
-                    />
-                </Link> 
-            ))
+            loading && data.length == 0 ? <Loading/> : 
+            <div className=" grid gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+                {
+                    data.map( (data, idx) =>(
+                        <Link to={`/details/${encodeURIComponent(data?.title)}`} 
+                        key={idx}
+                        state={{data}}
+                        className='block' >
+                            <Card 
+                            key={idx}
+                            title={data?.title}
+                            description={data?.overview}
+                            urlToImage={`https://image.tmdb.org/t/p/w500${data?.poster_path || data?.backdrop_path}`}
+                            source={data?.vote_average}
+                            date={new Date(data?.release_date).toLocaleDateString()}
+                        />
+                        </Link> 
+                    ))
+                }
+            </div>
         }
+        
     </div>
+    <Footer />
     </>
   )
 }

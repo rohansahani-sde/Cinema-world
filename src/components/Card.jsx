@@ -3,7 +3,7 @@ import { FaPlay } from 'react-icons/fa';
 // import { data, Link } from 'react-router-dom';
 import logo from "/load.gif"
 
-const Card = ({ title, description, urlToImage, source, date }) => {
+const Card = ({ title, description, urlToImage, rating, date }) => {
   return (
     <>
     {/* <Link to={`/news/${data.title}`} 
@@ -12,7 +12,7 @@ const Card = ({ title, description, urlToImage, source, date }) => {
     
     
     
-<div className="group relative grid h-[40rem] w-full max-w-[28rem] flex-col items-end justify-center overflow-hidden rounded-xl bg-white bg-clip-border text-center text-gray-700">
+<div className="group relative grid h-[25rem] w-full max-w-[15rem] flex-col items-end justify-center overflow-hidden rounded-xl bg-white bg-clip-border text-center text-gray-700">
   {/* Background image */}
   <div
     className="absolute inset-0 m-0 h-full w-full overflow-hidden rounded-none bg-transparent bg-cover bg-clip-border bg-center text-gray-700 shadow-none"
@@ -22,9 +22,11 @@ const Card = ({ title, description, urlToImage, source, date }) => {
   </div>
 
   {/* Title & Description */}
-  <div className="relative p-6 py-14 px-6 md:px-12 transform translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out">
-    <h2 className="mb-6 text-4xl font-medium text-white">{title}</h2>
-    <h5 className="text-xl font-semibold text-gray-300">{description ? description.slice(0, 100) + '...' : ''}</h5>
+  <div className="relative py-8 px-6 md:px-6 transform translate-y-full group-hover:translate-y-0 transition-transform duration-700 ease-in-out">
+    <h2 className="text-2xl font-medium text-white">{title}</h2>
+    <h5 className="mb-4 text-sm font-semibold text-gray-300">{description ? description.slice(0, 100) + '...' : ''}</h5>
+    <h5 className='text-white absolute left-2'>{date}</h5>
+    <h5 className='text-white absolute right-2'>✨{rating}</h5>
   </div>
 </div>
 

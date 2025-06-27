@@ -73,7 +73,7 @@ const App = () => {
     {/* <Category /> */}
 
     </BrowserRouter>
-    <Footer />
+    {/* <Footer /> */}
     </>
     
   )

@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react'
-// import {getHomeData} from '../store'
-// import Skeleton from './Skeleton'
-import { getHomeData } from './store'
+
 import Skeleton from './components/Skeleton'
 import { Link } from 'react-router-dom'
 import instance from './utils/axios'
+import Footer from './components/Footer'
 
 const Home = () => {
 
@@ -38,10 +37,7 @@ const Home = () => {
 
 
   useEffect(() => {
-    const delay = setTimeout(() => {
-      fetchData()
-    }, 500);
-    return ()=> clearInterval(delay)
+    fetchData()
   },[page])
 
 
@@ -52,6 +48,7 @@ const Home = () => {
 
   
   return (
+    <>
     <div className='pt-2 bg-black'>
       <div className='flex justify-center font-bold text-5xl my-4 border-b p-4 rounded-b-3xl'>
         <h1>
@@ -110,6 +107,8 @@ const Home = () => {
       </div>
       </div>
     </div>
+    <Footer />
+    </>
   )
 }
 

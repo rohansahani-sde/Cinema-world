@@ -10,6 +10,7 @@ import Adventure from './component/Adventure.jsx'
 import Home from './Home.jsx'
 import Navbar from './components/Navbar.jsx'
 import Category from './components/Category.jsx'
+import Loading from './components/Loading.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -18,6 +19,7 @@ createRoot(document.getElementById('root')).render(
     
     
     <App />
+    {/* <Loading /> */}
     {/* <Category/> */}
     
     {/* <Home /> */}
