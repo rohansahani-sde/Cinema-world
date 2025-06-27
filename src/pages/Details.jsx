@@ -11,7 +11,6 @@ const Details = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const {data} = location.state || {};
-    // console.log(data)
     const movieId = data?.id
 
     const [key, setKey] = useState("")
@@ -31,7 +30,7 @@ const Details = () => {
             // console.log(tmdb.data);
         }
         catch(error){
-            console.log(error);
+            console.log("video not : ", error);
         }
     }
 
