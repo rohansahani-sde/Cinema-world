@@ -35,7 +35,7 @@ const Footer = () => {
     </a>
     </div>
     <div  className='text-2xl text-white hover:scale-125 transition-all duration-300 p-2'>
-    <a target='_blank' href="https://github.com/0001sahani">
+    <a target='_blank' href="https://github.com/rohansahani-sde/Cinema-world">
         <FaGithub  />
     </a>
     </div>
