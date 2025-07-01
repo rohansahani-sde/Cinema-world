@@ -9,7 +9,7 @@ import { SiLeetcode } from 'react-icons/si';
 const Footer = () => {
     const links = [
         { name: "Home", icon: <FaHome />, link: "/" },
-        { name: "Projects", icon: <GoRepo />, link: "https://github.com/0001sahani" },
+        { name: "Projects", icon: <GoRepo />, link: "https://github.com/rohansahani-sde/Cinema-world" },
         { name: "Contact", icon: <MdContactMail />, link: "mailto:sahanirohan313@gmail.com" },
         { name: "About", icon: <IoPersonSharp />, link: "https://www.linkedin.com/in/rohan-sahani-09-/" },
     ];
