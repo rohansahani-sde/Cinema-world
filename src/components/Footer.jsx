@@ -15,8 +15,8 @@ const Footer = () => {
   ]
 
   const socialLinks = [
-    { name: 'LinkedIn', icon: <FaLinkedin />, link: 'https://www.linkedin.com/in/rohan-sahani-09-/', color: 'hover:text-blue-400 hover:shadow-blue-400/20' },
-    { name: 'GitHub', icon: <FaGithub />, link: 'https://github.com/0001sahani', color: 'hover:text-white hover:shadow-white/20' },
+    { name: 'LinkedIn', icon: <FaLinkedin />, link: 'https://www.linkedin.com/in/rohansahani/', color: 'hover:text-blue-400 hover:shadow-blue-400/20' },
+    { name: 'GitHub', icon: <FaGithub />, link: 'https://github.com/rohansahani-sde', color: 'hover:text-white hover:shadow-white/20' },
     { name: 'LeetCode', icon: <SiLeetcode />, link: 'https://leetcode.com/u/sahanirohan313/', color: 'hover:text-amber-400 hover:shadow-amber-400/20' },
     { name: 'Twitter', icon: <FaTwitter />, link: 'https://x.com/9793_rohan', color: 'hover:text-sky-400 hover:shadow-sky-400/20' },
   ]
