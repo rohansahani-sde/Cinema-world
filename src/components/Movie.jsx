@@ -1,81 +1,149 @@
-import React, {  useEffect, useState } from 'react'
-import {getMovies} from '../store'
+import React, { useEffect, useState } from 'react'
+import { getMovies } from '../store'
+import Card from './Card'
 import Skeleton from './Skeleton'
+import { HiChevronLeft, HiChevronRight, HiFilter } from 'react-icons/hi'
 
 const Movie = () => {
-
   const [movie, setMovie] = useState([])
-  const [lang , setLang] = useState('en-US')
-  const [page , setPage] = useState(1)
-  const [sort, setSort] = useState('trending')
+  const [lang, setLang] = useState('en-US')
+  const [page, setPage] = useState(1)
+  const [sort, setSort] = useState('popularity')
+  const [loading, setLoading] = useState(true)
 
   async function fetchMovie() {
-    const data = await getMovies(lang, page,sort);
-    if(data && data.results){
-      setMovie(data.results)
+    try {
+      setLoading(true)
+      const data = await getMovies(lang, page, sort)
+      if (data && data.results) {
+        setMovie(data.results)
+      }
+    } catch (error) {
+      console.error('Error fetching movies:', error)
+    } finally {
+      setLoading(false)
     }
   }
-  useEffect(()=>{
-    const delay = setTimeout(() => {
-      fetchMovie()
-    }, 500);
-    return ()=> clearInterval(delay)
-  },[lang,page,sort])
 
+  useEffect(() => {
+    fetchMovie()
+  }, [lang, page, sort])
 
+  // Reset page when filters change
+  useEffect(() => {
+    setPage(1)
+  }, [lang, sort])
 
   return (
-    <div className='mt-16'>
-      <h1 className='bg-red-600 flex justify-center py-2 text-3xl font-light '>Netflix Movies</h1>
-      <div className='flex justify-center bg-red-600  font-light'>
-      {/* input section */}
-      <label htmlFor="lang">Choose Language :</label>
-    <select id="lang"
-    onClick={(e)=> setLang(e.target.value)}
-    >
-      <option value="en-US">English</option>
-      <option value="hi">Hindi</option>
-      <option value="fr">French</option>
-      <option value="es">Spanish</option>
-    </select>
-    <select name="" id="" onClick={(e)=>setSort(e.target.value)}>
-        <option value="trending">Trending</option>
-        <option value="popularity">Popular</option>
-    </select>
-      </div>
+    <div className="min-h-screen bg-black text-white pt-24 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Header Section */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight font-heading">
+              Discover <span className="gradient-text">Movies</span>
+            </h1>
+            <p className="mt-2 text-white/50 text-base max-w-md">
+              Browse, filter, and explore movies across languages and popularity.
+            </p>
+          </div>
 
-    {/* movies lists */}
-      {movie.length > 0 ? (<>
-      <div className='pt-4 flex flex-wrap md:gap-5 gap-3 justify-center bg-black text-white '>
-      {movie.map((movie ) => (
-        <div className='flex-wrap text-center border rounded-xl sm:w-64 w-40' key={movie.id}>
-          {/* <div> */}
+          {/* Filters Bar */}
+          <div className="flex flex-wrap items-center gap-4 bg-zinc-900/40 p-3 rounded-2xl border border-white/5 backdrop-blur-xl">
+            <div className="flex items-center gap-2 text-white/60 px-2">
+              <HiFilter className="w-5 h-5 text-amber-500" />
+              <span className="text-sm font-medium">Filters:</span>
+            </div>
 
-          <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} 
-          className='w-full rounded-t-xl'
-          alt={movie.name} />
-          <h2 className='text-center text-xl font-extralight'>{movie.title}</h2>
-          <h2>Release : {movie.release_date}</h2>
+            {/* Language Select */}
+            <div className="relative">
+              <select
+                id="lang"
+                value={lang}
+                onChange={(e) => setLang(e.target.value)}
+                className="bg-black/60 hover:bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-amber-500 transition-all cursor-pointer appearance-none pr-8 min-w-[130px]"
+              >
+                <option value="en-US">🇺🇸 English</option>
+                <option value="hi">🇮🇳 Hindi</option>
+                <option value="fr">🇫🇷 French</option>
+                <option value="es">🇪🇸 Spanish</option>
+                <option value="ja">🇯🇵 Japanese</option>
+                <option value="ko">🇰🇷 Korean</option>
+              </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 text-xs">
+                ▼
+              </div>
+            </div>
+
+            {/* Sort Select */}
+            <div className="relative">
+              <select
+                value={sort}
+                onChange={(e) => setSort(e.target.value)}
+                className="bg-black/60 hover:bg-black border border-white/10 rounded-xl px-4 py-2.5 text-sm font-medium text-white focus:outline-none focus:border-amber-500 transition-all cursor-pointer appearance-none pr-8 min-w-[150px]"
+              >
+                <option value="popularity">🔥 Popularity</option>
+                <option value="vote_average">⭐ Rating</option>
+                <option value="primary_release_date">📅 Release Date</option>
+                <option value="revenue">💰 Box Office</option>
+              </select>
+              <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 text-xs">
+                ▼
+              </div>
+            </div>
+          </div>
         </div>
-      ))}
-      </div>
-      </>) :(<> 
-      {/* skeleton loader */}
-        {/* <div className="flex-wrap text-center border rounded-xl sm:w-64 w-40 animate-pulse">
-          <div className="w-full h-60 bg-gray-300 rounded-t-xl"></div>
-          <h2 className="text-center text-xl font-extralight bg-gray-300 h-6 w-3/4 mx-auto mt-2 rounded"></h2>
-          <h2 className="bg-gray-300 h-4 w-1/2 mx-auto mt-1 rounded"></h2>
-          </div> */}
-          <Skeleton/>
 
-      </>)}
-      <div className='flex justify-center items-baseline bg-red-600 pt-2'>
-        <button 
-        onClick={()=> setPage(Math.max(1,page-1)) }
-          className='border  m-1 px-2 rounded-lg'>Previous</button>
-        <span> page : {page} </span>
-        <button onClick={()=>setPage(page+1)}
-          className='border  m-1 px-2 rounded-lg'>Next</button>
+        {/* Movies Grid */}
+        {loading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+            <Skeleton count={12} variant="card" />
+          </div>
+        ) : movie.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 animate-fadeIn">
+            {movie.map((item) => (
+              <Card
+                key={item.id}
+                title={item.title}
+                description={item.overview}
+                urlToImage={item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : null}
+                rating={item.vote_average}
+                date={item.release_date ? new Date(item.release_date).getFullYear().toString() : ''}
+                data={item}
+              />
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20 bg-zinc-900/20 border border-white/5 rounded-3xl">
+            <p className="text-white/50 text-lg">No movies found matching the filters.</p>
+          </div>
+        )}
+
+        {/* Pagination Section */}
+        {movie.length > 0 && (
+          <div className="flex justify-center items-center gap-4 mt-12 pt-6 border-t border-white/5">
+            <button
+              onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+              disabled={page === 1}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/20 transition-all font-semibold disabled:opacity-40 disabled:hover:bg-zinc-900 disabled:cursor-not-allowed text-sm"
+            >
+              <HiChevronLeft className="w-5 h-5" />
+              Prev
+            </button>
+
+            <span className="text-sm font-semibold bg-amber-500/10 border border-amber-500/20 px-4 py-2 rounded-xl text-amber-400">
+              Page {page}
+            </span>
+
+            <button
+              onClick={() => setPage((prev) => prev + 1)}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/20 transition-all font-semibold text-sm"
+            >
+              Next
+              <HiChevronRight className="w-5 h-5" />
+            </button>
+          </div>
+        )}
       </div>
     </div>
   )

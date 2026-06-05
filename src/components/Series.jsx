@@ -1,118 +1,126 @@
-import React, { useEffect, useState } from 'react';
-import { getSeries, getVideo } from '../store';
-import {  BsArrowRightShort  } from "react-icons/bs";
-import Skeleton from './Skeleton';
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
+import React, { useEffect, useState } from 'react'
+import { getSeries } from '../store'
+import Card from './Card'
+import Skeleton from './Skeleton'
+import { HiSearch, HiChevronLeft, HiChevronRight } from 'react-icons/hi'
 
 const Series = () => {
-  const [search, setSearch] = useState('Game');
-  const [series, setSeries] = useState([]);
-  const [page, setPage] = useState(1);
+  const [search, setSearch] = useState('Game')
+  const [series, setSeries] = useState([])
+  const [page, setPage] = useState(1)
   const [totalPage, setTotalPage] = useState(1)
+  const [loading, setLoading] = useState(true)
 
-  
-//   fetch serires & data
-    async function fetchSeries() {
-        if(search.trim() === '') return;
-        const data = await getSeries(search, page);
-        setTotalPage(data.total_pages)
-        setSeries(data.results || []);
-    }
-
-    useEffect(() => {
-      const delay = setTimeout(() => {
-        fetchSeries();
-      }, 500);
-      return () => clearTimeout(delay);
-    },[page,search])
-
-    useEffect(() => {
-      setPage(1)
-    },[search])
-
-// fetch Trailer videos by series id
-  async function fetchVideo(seriesId) {
-    const data = await getVideo(seriesId);
-    if (data.results.length > 0) {
-      const url = `https://www.youtube.com/embed/${data.results[0].key}`;
-      window.open(url, '_blank'); 
-    } else {
-      alert('No trailer available');
+  async function fetchSeries() {
+    if (search.trim() === '') return
+    try {
+      setLoading(true)
+      const data = await getSeries(search, page)
+      setTotalPage(data.total_pages || 1)
+      setSeries(data.results || [])
+    } catch (error) {
+      console.error('Error fetching series:', error)
+    } finally {
+      setLoading(false)
     }
   }
 
+  useEffect(() => {
+    const delay = setTimeout(() => {
+      fetchSeries()
+    }, 500)
+    return () => clearTimeout(delay)
+  }, [page, search])
+
+  useEffect(() => {
+    setPage(1)
+  }, [search])
+
   return (
-    <div className=''>
-    <div className="bg-black text-white min-h-screen relative pt-16">
-      <h1 className="text-center text-3xl font-bold mb-4">
-        📺<span className='animate-pulse'>Explore Series</span> 
-     </h1>
+    <div className="min-h-screen bg-black text-white pt-24 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Header and Search */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
+          <div>
+            <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight font-heading">
+              Discover <span className="gradient-text">TV Series</span>
+            </h1>
+            <p className="mt-2 text-white/50 text-base max-w-md">
+              Search and discover episodic television and shows from around the world.
+            </p>
+          </div>
 
-      {/* input */}
- 
-    <div className="flex justify-center">
-  <div className="relative sm:w-full max-w-md">
-    <input
-      type="text"
-      placeholder="Search Series..."
-      value={search}
-      onChange={(e) => setSearch(e.target.value)}
-      className="w-full p-3 pl-10 text-lg border border-gray-600 bg-gray-900 text-white rounded-full focus:ring-2 focus:ring-cyan-400 focus:border-cyan-400 transition-all duration-300 outline-none"
-    />
-    <BsArrowRightShort className="absolute right-4 top-1/2 transform text-2xl  -translate-y-1/2 text-gray-400 animate-pulse " />
-    
-  </div>
-  </div>
+          {/* Search Bar */}
+          <div className="relative w-full max-w-md">
+            <input
+              type="text"
+              placeholder="Search series..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="w-full p-3.5 pl-12 pr-4 text-sm bg-zinc-900/60 border border-white/10 rounded-2xl focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-all duration-300 outline-none text-white backdrop-blur-xl"
+            />
+            <HiSearch className="absolute left-4 top-1/2 transform -translate-y-1/2 text-xl text-white/40" />
+          </div>
+        </div>
 
-      <div className="flex flex-wrap sm:gap-5 gap-3 justify-center mt-5">
-        {series.length > 0 ? (
-          series.map((item) => (
-            <div key={item.id} className="sm:w-64 w-44 border rounded-xl text-center bg-gray-800">
-              <img
-                src={`https://image.tmdb.org/t/p/w500${item.poster_path}`}
-                className="w-full rounded-t-xl"
-                alt={item.name}
+        {/* Series Grid */}
+        {loading ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+            <Skeleton count={12} variant="card" />
+          </div>
+        ) : series.length > 0 ? (
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6 animate-fadeIn">
+            {series.map((item) => (
+              <Card
+                key={item.id}
+                title={item.name}
+                description={item.overview}
+                urlToImage={item.poster_path ? `https://image.tmdb.org/t/p/w500${item.poster_path}` : null}
+                rating={item.vote_average}
+                date={item.first_air_date ? new Date(item.first_air_date).getFullYear().toString() : ''}
+                data={{ ...item, title: item.name, media_type: 'tv' }}
               />
-              <h3 className="mt-2 font-semibold">{item.name}</h3>
-              <button
-                className=" border-b-2 border-t border-cyan-400 hover:scale-105 duration-300 mb-2 hover:bg-cyan-400 hover:text-black font-semibold rounded-xl p-1 mt-2"
-                onClick={() => fetchVideo(item.id)}
-              >
-                📺 Watch Trailer
-              </button>
-            </div>
-          ))
+            ))}
+          </div>
         ) : (
-          <Skeleton />
+          <div className="text-center py-20 bg-zinc-900/20 border border-white/5 rounded-3xl">
+            <p className="text-white/50 text-lg">No series found matching "{search}".</p>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {series.length > 0 && totalPage > 1 && (
+          <div className="flex justify-center items-center gap-4 mt-12 pt-6 border-t border-white/5">
+            <button
+              onClick={() => setPage((prev) => Math.max(1, prev - 1))}
+              disabled={page === 1}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/20 transition-all font-semibold disabled:opacity-40 disabled:hover:bg-zinc-900 disabled:cursor-not-allowed text-sm"
+            >
+              <HiChevronLeft className="w-5 h-5" />
+              Prev
+            </button>
+
+            <span className="text-sm font-semibold bg-amber-500/10 border border-amber-500/20 px-4 py-2 rounded-xl text-amber-400">
+              Page {page} of {totalPage}
+            </span>
+
+            <button
+              onClick={() => {
+                if (page < totalPage) {
+                  setPage((prev) => prev + 1)
+                }
+              }}
+              disabled={page === totalPage}
+              className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/20 transition-all font-semibold disabled:opacity-40 disabled:hover:bg-zinc-900 disabled:cursor-not-allowed text-sm"
+            >
+              Next
+              <HiChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         )}
       </div>
-      <div className='border-b rounded-3xl mt-8'>
-        .
-      </div>
-      {/* Next and Prev buttons */}
-      <div className="text-xl flex justify-center items-center gap-3 py-5">
-        <button
-          onClick={() => setPage(Math.max(1, page - 1))}
-          className="flex items-center border-b-2 border-t-2 hover:bg-cyan-400 hover:text-black duration-300 hover:scale-105 rounded-xl p-2"
-        >
-            <FaArrowLeft className='text-2xl mr-2'/> Prev
-        </button>
-        <span> 📄 {page} </span>
-        <button
-          onClick={() => {
-            if(totalPage > 0){
-              setPage(page + 1 )}
-            }
-          }
-          disabled={totalPage === page}
-          className="flex items-center border-b-2 border-t-2 hover:bg-cyan-400 hover:text-black duration-300 hover:scale-105 rounded-xl p-2"
-        >
-            Next <FaArrowRight className='text-2xl ml-2'/>
-        </button>
-      </div>
     </div>
-    </div>
-  );
-};
+  )
+}
 
-export default Series;
+export default Series

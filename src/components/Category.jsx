@@ -1,94 +1,119 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useParams } from 'react-router-dom';
-import instance from '../utils/axios';
-import Card from './Card';
-import Loading from './Loading';
-import { FaDownLong, FaUpDown } from 'react-icons/fa6';
-import { FaArrowDown } from 'react-icons/fa';
-import Footer from './Footer';
+import { Link, useParams } from 'react-router-dom'
+import { HiArrowDown, HiChevronRight } from 'react-icons/hi'
+import instance from '../utils/axios'
+import Card from './Card'
+import Loading from './Loading'
 
-// const Category = ( {category} ) => {
-const Category = ( ) => {
+const categoryTitles = {
+  popular: 'Popular Movies',
+  top_rated: 'Top Rated Movies',
+  upcoming: 'Upcoming Movies',
+  now_playing: 'Now Playing Movies',
+}
 
-    const {category } = useParams();
-    // const category = "now_playing"
-    const [movies, setMovies] = useState([]);
-    const [page, setPage] = useState(1);
-    const [loading, setLoading] = useState(false);
+const Category = () => {
+  const { category } = useParams()
+  const [movies, setMovies] = useState([])
+  const [page, setPage] = useState(1)
+  const [loading, setLoading] = useState(false)
+  const [hasMore, setHasMore] = useState(true)
 
-    const fetchCategory = async () => {
-
-        try{
-            setLoading(true);
-            const res = await instance.get(`/movie/${category}`, {
-                params: {
-                    api_key: import.meta.env.VITE_TMDB_API_KEY,
-                    page: page,
-                }
-            });
-            const data = res.data.results;
-            setMovies(prev => [...prev,...data]);
-            // setMovies(data);
-            // console.log(data);
-        }catch(err){
-            console.log("Not fetch by category", err);
-        }finally{
-            setLoading(false);
-        }
-        
+  const fetchCategory = async () => {
+    try {
+      setLoading(true)
+      const res = await instance.get(`/movie/${category}`, {
+        params: {
+          api_key: import.meta.env.VITE_TMDB_API_KEY,
+          page: page,
+        },
+      })
+      const data = res.data.results
+      setMovies((prev) => [...prev, ...data])
+      setHasMore(data.length > 0)
+    } catch (err) {
+      console.log('Not fetch by category', err)
+    } finally {
+      setLoading(false)
     }
+  }
 
-    useEffect(() => {
-    setMovies([]);  // clear previous category's movies
-    setPage(1);  
-    fetchCategory();   // this will trigger page-based fetch
-}, [category]);
+  useEffect(() => {
+    setMovies([])
+    setPage(1)
+    setHasMore(true)
+  }, [category])
 
-    // load more data
-    useEffect(() =>{
-        fetchCategory();
-    },[category, page])
-    
-    
+  useEffect(() => {
+    fetchCategory()
+  }, [category, page])
+
+  const title = categoryTitles[category] || category.replace('_', ' ').replace(/\b\w/g, (l) => l.toUpperCase())
+
   return (
-    <>
-    <div className=' bg-black'>
-        {
-            loading && movies.length ==0  ? <Loading /> :
-            <div className="grid pt-10 bg-black gap-6 grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-            {
+    <div className="min-h-screen bg-black text-white pt-24 pb-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6">
+        {/* Header */}
+        <div className="mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-amber-500/35 bg-amber-500/10 mb-4 animate-pulse">
+            <HiChevronRight className="w-4 h-4 text-amber-400" />
+            <span className="text-xs font-semibold text-amber-400 tracking-wide uppercase">Category</span>
+          </div>
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight font-heading">
+            {title.includes(' ') ? (
+              <>
+                {title.substring(0, title.lastIndexOf(' '))} <span className="gradient-text">{title.substring(title.lastIndexOf(' ') + 1)}</span>
+              </>
+            ) : (
+              <span className="gradient-text">{title}</span>
+            )}
+          </h1>
+          <p className="text-white/50 mt-2 text-sm">
+            {movies.length > 0 ? `${movies.length} titles loaded` : 'Loading...'}
+          </p>
+        </div>
 
-                movies.map( (data, idx) =>(
-                    <Link to={`/details/${encodeURIComponent(data?.title)}`} 
-                    key={idx}
-                    state={{data}}
-                    className='block' >
-                        <Card 
-                        key={idx}
-                        title={data?.title}
-                        description={data?.overview}
-                        urlToImage={`https://image.tmdb.org/t/p/w500${data?.poster_path || data?.backdrop_path}`}
-                        rating={data?.vote_average}
-                        date={new Date(data?.release_date).toLocaleDateString()}
-                        />
-                    </Link> 
-                ))
-            }
+        {/* Movies Grid */}
+        {loading && movies.length === 0 ? (
+          <Loading />
+        ) : (
+          <>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 xl:grid-cols-5 gap-4 sm:gap-6">
+              {movies.map((data, idx) => (
+                <Card
+                  key={`${data.id}-${idx}`}
+                  title={data?.title}
+                  description={data?.overview}
+                  urlToImage={data?.poster_path ? `https://image.tmdb.org/t/p/w300${data.poster_path}` : null}
+                  rating={data?.vote_average}
+                  date={data?.release_date ? new Date(data.release_date).getFullYear().toString() : ''}
+                  data={data}
+                />
+              ))}
             </div>
-        }
-    <div className='flex justify-center pt-8 p-4'>
 
-        <button className='text-black flex items-center gap-2 rounded-lg p-2 px-4 bg-amber-500'
-         onClick={ () => setPage(page+1)}>Load More <FaArrowDown className=' animate-bounce' /> </button>
+            {/* Load More */}
+            {hasMore && (
+              <div className="flex justify-center mt-12">
+                <button
+                  onClick={() => setPage((p) => p + 1)}
+                  disabled={loading}
+                  className="flex items-center gap-2 px-8 py-3 rounded-xl bg-zinc-900 hover:bg-zinc-800 border border-white/10 hover:border-white/20 disabled:opacity-50 transition-all font-semibold text-sm"
+                >
+                  {loading ? (
+                    'Loading...'
+                  ) : (
+                    <>
+                      Load More <HiArrowDown className="w-5 h-5" />
+                    </>
+                  )}
+                </button>
+              </div>
+            )}
+          </>
+        )}
+      </div>
     </div>
-
-    </div>
-
-    <Footer />
-
-    
-
-    </>
   )
 }
 
